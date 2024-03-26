@@ -58,6 +58,13 @@ public class MainMenu extends JFrame {
 
         JButton playButton = new JButton("PLAY");
         playButton.setFont(buttonFont);
+        playButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent play) {
+                new GameScreen(width, height);
+                dispose();
+            }
+
+        });
 
         JButton quitButton = new JButton("QUIT");
         quitButton.setFont(buttonFont);

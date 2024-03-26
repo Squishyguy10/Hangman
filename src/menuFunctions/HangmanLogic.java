@@ -1,6 +1,6 @@
-import java.util.HashMap;
+package menuFunctions;
 
-public class HangmanGame {
+public class HangmanLogic {
     static final int MAXGUESSES = 6;
     private String word;
     private String guessedLetters;
@@ -8,14 +8,14 @@ public class HangmanGame {
     private int missingLetters;
 
     // Constructors
-    public HangmanGame(String word) {
+    public HangmanLogic(String word) {
         this.word = word.toLowerCase();
         guessedLetters = "";
         incorrectGuesses = 0;
         missingLetters = word.length();
     }
 
-    public HangmanGame() {
+    public HangmanLogic() {
         word = "";
         guessedLetters = "";
         incorrectGuesses = 0;

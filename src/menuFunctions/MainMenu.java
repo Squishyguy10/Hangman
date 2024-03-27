@@ -41,8 +41,8 @@ public class MainMenu extends JFrame {
         add(menuPanel);
 
         setResizable(false); // adjusting frames
-        setLocationRelativeTo(null);
         setSize(width, height); // sets size of frame
+        setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
     }

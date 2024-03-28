@@ -7,7 +7,7 @@ import java.awt.image.*;
 
 public class HangmanCharacter extends JPanel {
 
-    private static final String[] hangmanImageLocations = {
+    private static final String[] hangmanImageLocations = { // list of image locations
             "src/resources/hangman0.png",
             "src/resources/hangman1.png",
             "src/resources/hangman2.png",
@@ -17,7 +17,7 @@ public class HangmanCharacter extends JPanel {
             "src/resources/hangman6.png"};
 
     private static int penalties = 0;
-    private static JLabel hangmanImage;
+    private static JLabel hangmanImage; // image container
 
     public HangmanCharacter() {
 
@@ -26,13 +26,13 @@ public class HangmanCharacter extends JPanel {
 
     }
 
-    private Image getCurrentImage() {
+    private Image getCurrentImage() { // gets the current hangman image from penalty count
 
         BufferedImage image = null;
 
         try {
 
-            image = ImageIO.read(new File(hangmanImageLocations[penalties]));
+            image = ImageIO.read(new File(hangmanImageLocations[penalties])); // reads file location
 
         } catch(Exception e) {
 
@@ -40,20 +40,20 @@ public class HangmanCharacter extends JPanel {
 
         }
 
-        return image.getScaledInstance(250, 250, Image.SCALE_SMOOTH);
+        return image.getScaledInstance(250, 250, Image.SCALE_SMOOTH); // sets image size
     }
     public int getPenalties() {
         return penalties;
     }
 
-    public void incrementPenalties() {
+    public void incrementPenalties() { // increments penalty count and updates image
         penalties += 1;
 
         hangmanImage.setIcon(new ImageIcon(getCurrentImage()));
         hangmanImage.repaint();
     }
 
-    public JPanel getHangmanImage() {
+    public JPanel getHangmanImage() { // gets the panel with the image added to it
         add(hangmanImage);
         return this;
     }

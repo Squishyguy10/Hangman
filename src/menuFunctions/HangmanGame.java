@@ -1,4 +1,6 @@
-import java.util.HashMap;
+package menuFunctions;
+
+import javax.swing.*;
 
 public class HangmanGame {
     static final int MAXGUESSES = 6;
@@ -73,5 +75,10 @@ public class HangmanGame {
             }
         }
         return hidden;
+    }
+
+    public String spaceWord(String s) {
+        String spacedWord = showHiddenWord().replaceAll("", "&nbsp;");
+        return "<html><div style='letter-spacing: 10px;'>" + spacedWord + "</div></html>";
     }
 }

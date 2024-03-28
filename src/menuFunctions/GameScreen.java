@@ -5,6 +5,11 @@ import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.DocumentFilter;
+import javax.swing.text.PlainDocument;
+
 
 public class GameScreen extends JFrame {
     private final int width;
@@ -67,12 +72,15 @@ public class GameScreen extends JFrame {
         lowerPanel.setBorder(BorderFactory.createEmptyBorder(50, 0, 0, 0));
 
         JTextField userInput = new JTextField(1);
+        userInput.setDocument(new JTextFieldLimit(1)); // Set the document filter
         JButton button = new JButton("submit");
         button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 String input = userInput.getText();
-                currentGame.guessLetter(input.charAt(0));
-                hiddenWord.setText(currentGame.spaceWord(currentGame.showHiddenWord()));
+                if (input.length() == 1) {
+                    currentGame.guessLetter(input.charAt(0));
+                    hiddenWord.setText(currentGame.spaceWord(currentGame.showHiddenWord()));
+                }
                 userInput.setText(""); // Clear the text field after submitting
             }
         });
@@ -81,4 +89,24 @@ public class GameScreen extends JFrame {
 
         return lowerPanel;
     }
+
+    class JTextFieldLimit extends PlainDocument {
+        private int limit;
+
+        JTextFieldLimit(int limit) {
+            super();
+            this.limit = limit;
+        }
+
+        public void insertString(int offset, String str, AttributeSet attr) throws BadLocationException {
+            if (str == null) {
+                return;
+            }
+
+            if ((getLength() + str.length()) <= limit) {
+                super.insertString(offset, str, attr);
+            }
+        }
+    }
+
 }

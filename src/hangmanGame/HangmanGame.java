@@ -36,7 +36,7 @@ public class HangmanGame {
                 "dolphin",
                 "orca",
                 "crab",
-                "stringray",
+                "stingray",
                 "eel",
                 "clownfish",
                 "turtle",

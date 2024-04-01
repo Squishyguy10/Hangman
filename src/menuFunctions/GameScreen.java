@@ -72,16 +72,17 @@ public class GameScreen extends JFrame {
         lowerPanel.setBorder(BorderFactory.createEmptyBorder(50, 0, 0, 0));
 
         JTextField userInput = new JTextField(1);
-        userInput.setDocument(new JTextFieldLimit(1)); // Set the document filter
-        JButton button = new JButton("submit");
+        userInput.setDocument(new JTextFieldLimit(1));
+        JButton button = new JButton("check");
         button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 String input = userInput.getText();
+                // Word limit
                 if (input.length() == 1) {
                     currentGame.guessLetter(input.charAt(0));
                     hiddenWord.setText(currentGame.spaceWord(currentGame.showHiddenWord()));
                 }
-                userInput.setText(""); // Clear the text field after submitting
+                userInput.setText("");
             }
         });
         lowerPanel.add(userInput);
@@ -103,10 +104,12 @@ public class GameScreen extends JFrame {
                 return;
             }
 
-            if ((getLength() + str.length()) <= limit) {
-                super.insertString(offset, str, attr);
+            // Only allow letters
+            if (str.chars().allMatch(Character::isLetter)) {
+                if ((getLength() + str.length()) <= limit) {
+                    super.insertString(offset, str, attr);
+                }
             }
         }
     }
-
 }

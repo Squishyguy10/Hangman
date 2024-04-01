@@ -1,5 +1,7 @@
 package menuFunctions;
 
+import hangmanGame.GameScreen;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;

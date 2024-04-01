@@ -1,9 +1,6 @@
 package menuFunctions;
 
 import javax.swing.*;
-package menuFunctions;
-
-import javax.swing.*;
 
 public class HangmanGame {
     static final int MAXGUESSES = 6;

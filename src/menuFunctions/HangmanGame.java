@@ -1,6 +1,8 @@
 package menuFunctions;
 
-public class HangmanLogic {
+import javax.swing.*;
+
+public class HangmanGame {
     static final int MAXGUESSES = 6;
     private String word;
     private String guessedLetters;
@@ -8,14 +10,14 @@ public class HangmanLogic {
     private int missingLetters;
 
     // Constructors
-    public HangmanLogic(String word) {
+    public HangmanGame(String word) {
         this.word = word.toLowerCase();
         guessedLetters = "";
         incorrectGuesses = 0;
         missingLetters = word.length();
     }
 
-    public HangmanLogic() {
+    public HangmanGame() {
         word = "";
         guessedLetters = "";
         incorrectGuesses = 0;
@@ -73,5 +75,10 @@ public class HangmanLogic {
             }
         }
         return hidden;
+    }
+
+    public String spaceWord(String s) {
+        String spacedWord = showHiddenWord().replaceAll("", "&nbsp;");
+        return "<html><div style='letter-spacing: 10px;'>" + spacedWord + "</div></html>";
     }
 }

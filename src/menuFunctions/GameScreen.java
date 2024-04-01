@@ -5,38 +5,34 @@ import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.DocumentFilter;
+import javax.swing.text.PlainDocument;
 
-public class GameScreen extends JFrame{
+
+public class GameScreen extends JFrame {
     private final int width;
     private final int height;
-    private BufferedImage[] img = new BufferedImage[7];
+    private HangmanGame currentGame;
+    JLabel hiddenWord;
 
-    public GameScreen() { // default constructor
+    public GameScreen() {
         width = 720;
         height = 640;
+        initWord("classroom");
         createFrame();
-        initImages();
     }
 
     public GameScreen(int width, int height) {
         this.width = width;
         this.height = height;
+        initWord("classroom");
         createFrame();
-        initImages();
     }
 
-    public void initImages() {
-        for(int i = 0; i < 7; i++) {
-            try {
-                String url = String.format("../resources/hangman%x.png", i);
-                img[i] = ImageIO.read(GameScreen.class.getResource(url));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+    private void initWord(String s) {
+        this.currentGame = new HangmanGame(s);
     }
 
     private void createFrame() {
@@ -50,20 +46,23 @@ public class GameScreen extends JFrame{
         vertical.add(createUpperPanel());
         vertical.add(createLowerPanel());
 
+        add(gamePanel);
+
         setResizable(false);
         setSize(width, height);
         setLocationRelativeTo(null);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
     }
 
     private JPanel createUpperPanel() {
         JPanel upperPanel = new JPanel();
 
-        JLabel displayWord = new JLabel("test");
-        upperPanel.setFont(new Font("SANS_SERIF", Font.BOLD, 72));
+        hiddenWord = new JLabel(currentGame.spaceWord(currentGame.showHiddenWord()));
+        hiddenWord.setFont(new Font("SANS_SERIF", Font.BOLD, 72));
 
-        upperPanel.add(upperPanel);
+        upperPanel.add(hiddenWord);
+
         return upperPanel;
     }
 
@@ -72,12 +71,41 @@ public class GameScreen extends JFrame{
         lowerPanel.setLayout(new BoxLayout(lowerPanel, BoxLayout.Y_AXIS));
         lowerPanel.setBorder(BorderFactory.createEmptyBorder(50, 0, 0, 0));
 
-        JTextField userInput = new JTextField();
-        userInput.setBorder(BorderFactory.createEmptyBorder(75, 0, 0, 0));
-        userInput.setFont(new Font("SANS_SERIF", Font.BOLD, 72));
-
+        JTextField userInput = new JTextField(1);
+        userInput.setDocument(new JTextFieldLimit(1)); // Set the document filter
+        JButton button = new JButton("submit");
+        button.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String input = userInput.getText();
+                if (input.length() == 1) {
+                    currentGame.guessLetter(input.charAt(0));
+                    hiddenWord.setText(currentGame.spaceWord(currentGame.showHiddenWord()));
+                }
+                userInput.setText(""); // Clear the text field after submitting
+            }
+        });
         lowerPanel.add(userInput);
+        lowerPanel.add(button);
 
         return lowerPanel;
+    }
+
+    class JTextFieldLimit extends PlainDocument {
+        private int limit;
+
+        JTextFieldLimit(int limit) {
+            super();
+            this.limit = limit;
+        }
+
+        public void insertString(int offset, String str, AttributeSet attr) throws BadLocationException {
+            if (str == null) {
+                return;
+            }
+
+            if ((getLength() + str.length()) <= limit) {
+                super.insertString(offset, str, attr);
+            }
+        }
     }
 }

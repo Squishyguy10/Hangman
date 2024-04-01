@@ -9,13 +9,13 @@ public class MainMenu extends JFrame {
     private final int width;
     private final int height;
 
-    public MainMenu() { // default constructor with set width and height
+    public MainMenu() {
         width = 720;
         height = 640;
 
         createFrame();
     }
-    public MainMenu(int width, int height) { // constructor to set width and height
+    public MainMenu(int width, int height) {
 
         this.width = width;
         this.height = height;
@@ -23,39 +23,35 @@ public class MainMenu extends JFrame {
         createFrame();
     }
 
-    private void createFrame() { // creates the main menu frame
+    private void createFrame() {
 
-        // creating the panel to hold the buttons
         JPanel menuPanel = new JPanel(); // main panel
         menuPanel.setLayout(new BoxLayout(menuPanel, BoxLayout.Y_AXIS));
         menuPanel.setBorder(BorderFactory.createEmptyBorder(75, 75, 75, 75)); // used for spacing around panel on frame
 
-        // creating the panel to hold the title
         JPanel titlePanel = new JPanel(); // panel to hold title GUI
 
         JLabel titleLabel = new JLabel("HANGMAN");
         titleLabel.setFont(new Font("SANS_SERIF", Font.BOLD, 72)); // changes font and font size for title
 
-        // adding components to the frame
-        titlePanel.add(titleLabel);
+
+        titlePanel.add(titleLabel); // adding components to the frame
         menuPanel.add(titlePanel);
         menuPanel.add(getMenuButtons());
         add(menuPanel);
 
-        // adjusting frames
-        setResizable(false);
+        setResizable(false); // adjusting frames
         setSize(width, height); // sets size of frame
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
     }
 
-    private JPanel getMenuButtons() { // creates the buttons used to navigate the menu
+    private JPanel getMenuButtons() {
 
         JPanel buttonPanel = new JPanel();
         buttonPanel.setBorder(BorderFactory.createEmptyBorder(100, 50, 50, 50));
-        buttonPanel.setLayout(new GridBagLayout()); // grid bag layout to create a grid layout
-        // without the same size for all grid spaces
+        buttonPanel.setLayout(new GridBagLayout());
 
 
         Font buttonFont = new Font("SANS_SERIF", Font.BOLD, 48);
@@ -63,16 +59,15 @@ public class MainMenu extends JFrame {
         JButton playButton = new JButton("PLAY");
         playButton.setFont(buttonFont);
         playButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent play) {
+            public void actionPerformed(ActionEvent info) {
                 new GameScreen(width, height);
                 dispose();
             }
-
         });
 
         JButton quitButton = new JButton("QUIT");
         quitButton.setFont(buttonFont);
-        quitButton.addActionListener(new ActionListener() { // ActionListeners to listen for a button press
+        quitButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent quit) {
 
                 if (confirmQuit()) {
@@ -85,15 +80,13 @@ public class MainMenu extends JFrame {
         JButton infoButton = new JButton("INSTRUCTIONS");
         infoButton.setFont(buttonFont);
         infoButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent info) {
+           public void actionPerformed(ActionEvent info) {
 
-                // creates next menu screen and gets rid of current frame
-                new InstructionsMenu(width, height);
-                dispose();
-            }
+               new InstructionsMenu(width, height);
+               dispose();
+           }
         });
 
-        // adding buttons to panel with using GBC to format correctly
         buttonPanel.add(playButton, createGBC(0, 0, 1));
         buttonPanel.add(quitButton, createGBC(1, 0, 1));
         buttonPanel.add(infoButton, createGBC(0, 1, 2));
@@ -118,7 +111,7 @@ public class MainMenu extends JFrame {
         return gbc;
     }
 
-    private boolean confirmQuit() { // asks for a confirmation before quitting program
+    private boolean confirmQuit() {
         int answer = JOptionPane.showConfirmDialog(this, "Are you sure you want to quit?", "Confirm Quit", JOptionPane.YES_NO_OPTION); // gets an integer from option chosen on option pane
 
         return answer == JOptionPane.YES_OPTION;

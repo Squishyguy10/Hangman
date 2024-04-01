@@ -58,8 +58,7 @@ public class HangmanGame {
                 "catfish",
                 "tigershark",
                 "trout",
-                "cod",
-                "vinit"
+                "cod"
         };
 
         Random rand = new Random();

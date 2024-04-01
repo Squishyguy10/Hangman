@@ -1,32 +1,80 @@
-package menuFunctions;
+package hangmanGame;
 
 import javax.swing.*;
+import java.util.Random;
 
 public class HangmanGame {
     static final int MAXGUESSES = 6;
     private String word;
     private String guessedLetters;
+    private String incorrectLetters = "";
     private int incorrectGuesses;
     private int missingLetters;
 
     // Constructors
-    public HangmanGame(String word) {
-        this.word = word.toLowerCase();
+    public HangmanGame() {
+        word = wordToGuess();
         guessedLetters = "";
         incorrectGuesses = 0;
         missingLetters = word.length();
     }
 
-    public HangmanGame() {
-        word = "";
-        guessedLetters = "";
-        incorrectGuesses = 0;
+    private String wordToGuess() { // randomly chooses the word to guess
+        String[] wordArray = {
+                "fish",
+                "lobster",
+                "shrimp",
+                "clam",
+                "piranha",
+                "shark",
+                "jellyfish",
+                "whale",
+                "bass",
+                "perch",
+                "salmon",
+                "snapper",
+                "dolphin",
+                "orca",
+                "crab",
+                "stingray",
+                "eel",
+                "clownfish",
+                "turtle",
+                "nemo",
+                "pufferfish",
+                "sponge",
+                "seaslug",
+                "starfish",
+                "lionfish",
+                "squid",
+                "octopus",
+                "parrotfish",
+                "sheepfish",
+                "coral",
+                "seahorse",
+                "goldfish",
+                "goblinshark",
+                "hammerhead",
+                "catfish",
+                "tigershark",
+                "trout",
+                "cod"
+        };
+
+        Random rand = new Random();
+
+        int randomIndex = rand.nextInt(wordArray.length);
+        return wordArray[randomIndex];
     }
 
     // Getters and setters
     public String getWord() {
         missingLetters = word.length();
         return word.toLowerCase();
+    }
+
+    public String getIncorrectLetters() {
+        return incorrectLetters;
     }
 
     public String getGuessedLetters() {
@@ -56,6 +104,7 @@ public class HangmanGame {
         if(guessedLetters.indexOf(letter) == -1) {
             guessedLetters += letter;
             if(word.indexOf(letter) == -1) {
+                incorrectLetters += letter;
                 incorrectGuesses++;
             }
         }

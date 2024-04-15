@@ -54,47 +54,46 @@ public class MainMenu extends JFrame {
         JPanel buttonPanel = new JPanel();
         buttonPanel.setBorder(BorderFactory.createEmptyBorder(100, 50, 50, 50));
         buttonPanel.setLayout(new GridBagLayout());
-
-
+    
         Font buttonFont = new Font("SANS_SERIF", Font.BOLD, 48);
-
+    
         JButton playButton = new JButton("PLAY");
         playButton.setFont(buttonFont);
+        playButton.setBackground(new Color(139, 247, 123));
         playButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent info) {
                 new GameScreen(width, height);
                 dispose();
             }
         });
-
+    
         JButton quitButton = new JButton("QUIT");
         quitButton.setFont(buttonFont);
+        quitButton.setBackground(new Color(255, 108, 108));
         quitButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent quit) {
-
                 if (confirmQuit()) {
                     System.exit(0);
                 }
             }
-
         });
-
+    
         JButton infoButton = new JButton("INSTRUCTIONS");
         infoButton.setFont(buttonFont);
+        infoButton.setBackground(new Color(155, 222, 255));
         infoButton.addActionListener(new ActionListener() {
            public void actionPerformed(ActionEvent info) {
-
                new InstructionsMenu(width, height);
                dispose();
            }
         });
-
+    
         buttonPanel.add(playButton, createGBC(0, 0, 1));
         buttonPanel.add(quitButton, createGBC(1, 0, 1));
         buttonPanel.add(infoButton, createGBC(0, 1, 2));
-
+    
         return buttonPanel;
-    }
+    }    
 
     private GridBagConstraints createGBC( int x, int y, int gridWidth) { // used with GridBagLayouts to create spacing between components
         GridBagConstraints gbc = new GridBagConstraints();

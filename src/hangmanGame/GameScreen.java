@@ -97,44 +97,49 @@ public class GameScreen extends JFrame {
     }
 
     private JPanel createInputPanel() {
-        JPanel inputPanel = new JPanel();
-        inputPanel.setLayout(new BoxLayout(inputPanel, BoxLayout.Y_AXIS));
-        inputPanel.setBorder(BorderFactory.createEmptyBorder(50, 0, 0, 0));
+    JPanel inputPanel = new JPanel();
+    inputPanel.setLayout(new BoxLayout(inputPanel, BoxLayout.Y_AXIS));
+    inputPanel.setBorder(BorderFactory.createEmptyBorder(50, 0, 0, 0));
 
-        JTextField userInput = new JTextField(1);
-        userInput.setDocument(new JTextFieldLimit(1));
-        JButton button = new JButton("check");
-        button.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                String input = userInput.getText();
-                // Word limit
-                if (input.length() == 1) {
-                    currentGame.guessLetter(input.charAt(0));
-                    hiddenWord.setText(currentGame.spaceWord(currentGame.showHiddenWord()));
+    JTextField userInput = new JTextField(1);
+    userInput.setDocument(new JTextFieldLimit(1));
+    
+    // Add key listener to the text field
+    userInput.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            String input = userInput.getText();
+            if (!input.isEmpty()) { // Check if input is not empty
+                currentGame.guessLetter(input.charAt(0));
+                hiddenWord.setText(currentGame.spaceWord(currentGame.showHiddenWord()));
 
-                    String incorrectLetters = currentGame.getIncorrectLetters();
-                    String incorrectString = "";
-                    for (int i = 0 ; i < incorrectLetters.length() ; i++) {
-                        incorrectString += incorrectLetters.charAt(i) + " ";
-                    }
-
-                    hangmanChar.updateImage(currentGame.getIncorrectGuesses());
-
-                    guessedLetters.setText(incorrectString);
-
-                    if (currentGame.wonGame()) { // checks if the word is complete or user is out of guesses
-                        wordComplete();
-                    } else if (!currentGame.isAlive())
-                        GameOver();
+                String incorrectLetters = currentGame.getIncorrectLetters();
+                String incorrectString = "";
+                for (int i = 0; i < incorrectLetters.length(); i++) {
+                    incorrectString += incorrectLetters.charAt(i) + " ";
                 }
-                userInput.setText("");
-            }
-        });
-        inputPanel.add(userInput);
-        inputPanel.add(button);
 
-        return inputPanel;
-    }
+                hangmanChar.updateImage(currentGame.getIncorrectGuesses());
+
+                guessedLetters.setText(incorrectString);
+
+                if (currentGame.wonGame()) { // checks if the word is complete or user is out of guesses
+                    wordComplete();
+                } else if (!currentGame.isAlive())
+                    GameOver();
+            }
+            userInput.setText("");
+        }
+    });
+    
+    inputPanel.add(userInput);
+
+    // Set the default button to null to prevent clicking the button on pressing Enter
+    this.getRootPane().setDefaultButton(null);
+
+    return inputPanel;
+}
+
 
     class JTextFieldLimit extends PlainDocument {
         private int limit;
@@ -164,6 +169,7 @@ public class GameScreen extends JFrame {
         new MainMenu();
         dispose();
     }
+    
     public void GameOver() {
         JOptionPane.showMessageDialog(this, "Out of guesses. The word was " + currentGame.getWord() + ".", "GAME OVER", JOptionPane.INFORMATION_MESSAGE);
 

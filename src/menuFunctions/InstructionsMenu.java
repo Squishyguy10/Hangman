@@ -75,6 +75,7 @@ public class InstructionsMenu extends JFrame {
         JPanel buttonPanel = new JPanel();
         buttonPanel.setBorder(BorderFactory.createEmptyBorder(75, 0, 0, 0));
         JButton backButton = new JButton("BACK");
+        backButton.setBackground(new Color(155, 222, 255));
         backButton.setPreferredSize(new Dimension(250, 75));
         backButton.addActionListener(new ActionListener() {
             @Override

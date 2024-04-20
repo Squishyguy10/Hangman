@@ -8,21 +8,19 @@ import java.awt.event.ActionListener;
 public class LeaderboardMenu extends JFrame {
     private final int width;
     private final int height;
-    private static Leaderboard leaderboard = new Leaderboard();
+    private static Leaderboard leaderboard;
 
     public LeaderboardMenu() {
         width = 720;
         height = 640;
-        leaderboard.updateScore("TestPlayer1", 3); 
-        leaderboard.updateScore("TestPlayer2", 4);
+        leaderboard = new Leaderboard();
         createFrame();
     }
 
-    public LeaderboardMenu(int width, int height) { 
+    public LeaderboardMenu(int width, int height, Leaderboard leaderboard) {
         this.width = width;
         this.height = height;
-        leaderboard.updateScore("TestPlayer1", 3); 
-        leaderboard.updateScore("TestPlayer2", 4);
+        this.leaderboard = leaderboard;
         createFrame();
     }
 
@@ -31,11 +29,9 @@ public class LeaderboardMenu extends JFrame {
         infoPanel.setLayout(new BorderLayout());
         infoPanel.setBorder(BorderFactory.createEmptyBorder(75, 75, 75, 75));
 
-        Box vertical = Box.createVerticalBox();
-        infoPanel.add(vertical, BorderLayout.PAGE_START);
-
-        vertical.add(createUpperPanel());
-        vertical.add(createLowerPanel());
+        infoPanel.add(createUpperPanel(), BorderLayout.NORTH);
+        infoPanel.add(createLeaderboardPanel(), BorderLayout.CENTER);
+        infoPanel.add(createButtonPanel(), BorderLayout.SOUTH);
 
         add(infoPanel);
 
@@ -58,12 +54,9 @@ public class LeaderboardMenu extends JFrame {
         return upperPanel;
     }
 
-    private JPanel createLowerPanel() {
-        JPanel lowerPanel = new JPanel();
-        lowerPanel.setLayout(new BorderLayout());
-        lowerPanel.setBorder(BorderFactory.createEmptyBorder(50, 0, 0, 0));
-    
+    private JPanel createLeaderboardPanel() {
         JPanel leaderboardPanel = new JPanel(new GridLayout(0, 2, 10, 0));
+        leaderboardPanel.setBorder(BorderFactory.createEmptyBorder(25, 0, 0, 0));
         leaderboardPanel.setBorder(BorderFactory.createEmptyBorder(0, 100, 0, 100));
     
         JLabel playerLabel = new JLabel("Player");
@@ -87,11 +80,14 @@ public class LeaderboardMenu extends JFrame {
             leaderboardPanel.add(player);
             leaderboardPanel.add(score);
         }
-    
-        lowerPanel.add(leaderboardPanel, BorderLayout.CENTER);
-    
+
+        return leaderboardPanel;
+    }
+
+    private JPanel createButtonPanel() {
+
         JPanel buttonPanel = new JPanel();
-        buttonPanel.setBorder(BorderFactory.createEmptyBorder(75, 0, 0, 0));
+        buttonPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 25, 0));
         JButton backButton = new JButton("BACK");
         backButton.setBackground(new Color(155, 222, 255));
         backButton.setPreferredSize(new Dimension(250, 75));
@@ -103,9 +99,7 @@ public class LeaderboardMenu extends JFrame {
             }
         });
         buttonPanel.add(backButton);
-    
-        lowerPanel.add(buttonPanel, BorderLayout.SOUTH);
-    
-        return lowerPanel;
-    }      
+
+        return buttonPanel;
+    }
 }

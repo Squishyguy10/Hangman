@@ -7,6 +7,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.*;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.PlainDocument;
@@ -18,18 +19,20 @@ public class GameScreen extends JFrame {
     private final HangmanCharacter hangmanChar = new HangmanCharacter();
     private JLabel hiddenWord;
     private JLabel guessedLetters = new JLabel("");
-    private Leaderboard leaderboard = new Leaderboard();
+    private Leaderboard leaderboard;
 
     public GameScreen() {
         width = 720;
         height = 640;
+        this.leaderboard = new Leaderboard();
         this.currentGame = new HangmanGame();
         createFrame();
     }
 
-    public GameScreen(int width, int height) {
+    public GameScreen(int width, int height, Leaderboard leaderboard) {
         this.width = width;
         this.height = height;
+        this.leaderboard = leaderboard;
         this.currentGame = new HangmanGame();
         createFrame();
     }

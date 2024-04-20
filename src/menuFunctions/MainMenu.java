@@ -5,9 +5,8 @@ import hangmanGame.GameScreen;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.lang.*;
-public class MainMenu extends JFrame {
 
+public class MainMenu extends JFrame {
     private final int width;
     private final int height;
 
@@ -17,8 +16,8 @@ public class MainMenu extends JFrame {
 
         createFrame();
     }
+    
     public MainMenu(int width, int height) {
-
         this.width = width;
         this.height = height;
 
@@ -26,16 +25,13 @@ public class MainMenu extends JFrame {
     }
 
     private void createFrame() {
-
         JPanel menuPanel = new JPanel(); // main panel
         menuPanel.setLayout(new BoxLayout(menuPanel, BoxLayout.Y_AXIS));
         menuPanel.setBorder(BorderFactory.createEmptyBorder(75, 75, 75, 75)); // used for spacing around panel on frame
 
         JPanel titlePanel = new JPanel(); // panel to hold title GUI
-
         JLabel titleLabel = new JLabel("HANGMAN");
         titleLabel.setFont(new Font("SANS_SERIF", Font.BOLD, 72)); // changes font and font size for title
-
 
         titlePanel.add(titleLabel); // adding components to the frame
         menuPanel.add(titlePanel);
@@ -50,7 +46,6 @@ public class MainMenu extends JFrame {
     }
 
     private JPanel getMenuButtons() {
-
         JPanel buttonPanel = new JPanel();
         buttonPanel.setBorder(BorderFactory.createEmptyBorder(100, 50, 50, 50));
         buttonPanel.setLayout(new GridBagLayout());
@@ -64,6 +59,15 @@ public class MainMenu extends JFrame {
             public void actionPerformed(ActionEvent info) {
                 new GameScreen(width, height);
                 dispose();
+            }
+        });
+
+        JButton leaderboardButton = new JButton("RANKING");
+        leaderboardButton.setFont(buttonFont);
+        leaderboardButton.setBackground(new Color(139, 247, 123));
+        leaderboardButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent info) {
+                new LeaderboardMenu(width, height).setVisible(true);
             }
         });
     
@@ -88,9 +92,10 @@ public class MainMenu extends JFrame {
            }
         });
     
-        buttonPanel.add(playButton, createGBC(0, 0, 1));
-        buttonPanel.add(quitButton, createGBC(1, 0, 1));
-        buttonPanel.add(infoButton, createGBC(0, 1, 2));
+        buttonPanel.add(playButton, createGBC(0, 0, 2));
+        buttonPanel.add(infoButton, createGBC(0, 1, 1));
+        buttonPanel.add(leaderboardButton, createGBC(1, 1, 1));
+        buttonPanel.add(quitButton, createGBC(0, 2, 2));
     
         return buttonPanel;
     }    
@@ -114,7 +119,6 @@ public class MainMenu extends JFrame {
 
     private boolean confirmQuit() {
         int answer = JOptionPane.showConfirmDialog(this, "Are you sure you want to quit?", "Confirm Quit", JOptionPane.YES_NO_OPTION); // gets an integer from option chosen on option pane
-
         return answer == JOptionPane.YES_OPTION;
     }
 }

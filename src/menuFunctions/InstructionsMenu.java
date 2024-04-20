@@ -18,7 +18,6 @@ public class InstructionsMenu extends JFrame {
     }
 
     public InstructionsMenu(int width, int height) { // constructor to set sizes
-
         this.width = width;
         this.height = height;
 
@@ -26,7 +25,6 @@ public class InstructionsMenu extends JFrame {
     }
 
     private void createFrame() {
-
         // creating panel to hold all GUI
         JPanel infoPanel = new JPanel();
         infoPanel.setLayout(new BorderLayout());
@@ -64,7 +62,6 @@ public class InstructionsMenu extends JFrame {
         lowerPanel.setLayout(new BoxLayout(lowerPanel, BoxLayout.Y_AXIS));
         lowerPanel.setBorder(BorderFactory.createEmptyBorder(50, 0, 0, 0));
 
-
         String[] ruleList = { // list of rules that will be formatted into labels
                 "1. A RANDOM WORD WILL BE CHOSEN",
                 "2. CORRECT GUESSES WILL FILL IN LETTERS",
@@ -85,21 +82,15 @@ public class InstructionsMenu extends JFrame {
                 dispose();
             }
         });
-
         buttonPanel.add(backButton);
 
-        for (String s : ruleList) { // adds a label for each rule in instructions
-
+        for(String s : ruleList) { // adds a label for each rule in instructions
             JLabel rule = new JLabel(s);
             rule.setFont(new Font("SANS_SERIF", Font.BOLD, 22));
 
             lowerPanel.add(rule);
-
         }
-
-
         lowerPanel.add(buttonPanel);
-
 
         return lowerPanel;
     }

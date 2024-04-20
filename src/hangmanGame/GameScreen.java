@@ -1,5 +1,7 @@
 package hangmanGame;
+
 import menuFunctions.MainMenu;
+import menuFunctions.Leaderboard;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,14 +11,14 @@ import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.PlainDocument;
 
-
 public class GameScreen extends JFrame {
     private final int width;
     private final int height;
     private HangmanGame currentGame;
     private final HangmanCharacter hangmanChar = new HangmanCharacter();
-    JLabel hiddenWord;
-    JLabel guessedLetters = new JLabel("");
+    private JLabel hiddenWord;
+    private JLabel guessedLetters = new JLabel("");
+    private Leaderboard leaderboard = new Leaderboard();
 
     public GameScreen() {
         width = 720;
@@ -76,10 +78,8 @@ public class GameScreen extends JFrame {
     }
 
     private JPanel createGuessedLettersPanel() {
-
         JPanel guessedLettersPanel = new JPanel();
         guessedLetters.setFont(new Font("SANS_SERIF", Font.BOLD, 48));
-
         guessedLettersPanel.add(guessedLetters);
 
         return guessedLettersPanel;
@@ -90,7 +90,6 @@ public class GameScreen extends JFrame {
 
         hiddenWord = new JLabel(currentGame.spaceWord(currentGame.showHiddenWord()));
         hiddenWord.setFont(new Font("SANS_SERIF", Font.BOLD, 48));
-
         hiddenWordPanel.add(hiddenWord);
 
         return hiddenWordPanel;
@@ -120,18 +119,17 @@ public class GameScreen extends JFrame {
                 }
 
                 hangmanChar.updateImage(currentGame.getIncorrectGuesses());
-
                 guessedLetters.setText(incorrectString);
 
                 if (currentGame.wonGame()) { // checks if the word is complete or user is out of guesses
                     wordComplete();
-                } else if (!currentGame.isAlive())
+                } else if (!currentGame.isAlive()) {
                     GameOver();
+                }
             }
             userInput.setText("");
         }
     });
-    
     inputPanel.add(userInput);
 
     // Set the default button to null to prevent clicking the button on pressing Enter
@@ -139,7 +137,6 @@ public class GameScreen extends JFrame {
 
     return inputPanel;
 }
-
 
     class JTextFieldLimit extends PlainDocument {
         private int limit;
@@ -164,12 +161,21 @@ public class GameScreen extends JFrame {
     }
 
     public void wordComplete() {
-        JOptionPane.showMessageDialog(this, "You guessed the word. The word was " + currentGame.getWord() + ".", "YOU WIN", JOptionPane.INFORMATION_MESSAGE);
-
+        String playerName = JOptionPane.showInputDialog(this, "You guessed the word. The word was " + currentGame.getWord() + ". Please enter your name to continue:", "YOU WIN", JOptionPane.INFORMATION_MESSAGE);
+    
+        if (playerName != null && !playerName.isEmpty()) {
+            leaderboard.updateScore(playerName, currentGame.getIncorrectGuesses());
+            JOptionPane.showMessageDialog(this, "Your score has been recorded.", "Leaderboard Updated", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            // If the player cancels or enters an empty name
+            JOptionPane.showMessageDialog(this, "Your score was not recorded.", "Leaderboard Not Updated", JOptionPane.INFORMATION_MESSAGE);
+        }
+    
         new MainMenu();
         dispose();
     }
     
+
     public void GameOver() {
         JOptionPane.showMessageDialog(this, "Out of guesses. The word was " + currentGame.getWord() + ".", "GAME OVER", JOptionPane.INFORMATION_MESSAGE);
 

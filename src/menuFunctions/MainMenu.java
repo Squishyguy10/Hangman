@@ -9,6 +9,7 @@ import java.awt.event.*;
 public class MainMenu extends JFrame {
     private final int width;
     private final int height;
+    static Leaderboard leaderboard = new Leaderboard();
 
     public MainMenu() {
         width = 720;
@@ -20,14 +21,14 @@ public class MainMenu extends JFrame {
     public MainMenu(int width, int height) {
         this.width = width;
         this.height = height;
-
         createFrame();
     }
 
     private void createFrame() {
+
         JPanel menuPanel = new JPanel(); // main panel
         menuPanel.setLayout(new BoxLayout(menuPanel, BoxLayout.Y_AXIS));
-        menuPanel.setBorder(BorderFactory.createEmptyBorder(75, 75, 75, 75)); // used for spacing around panel on frame
+        menuPanel.setBorder(BorderFactory.createEmptyBorder(25, 25, 25, 25)); // used for spacing around panel on frame
 
         JPanel titlePanel = new JPanel(); // panel to hold title GUI
         JLabel titleLabel = new JLabel("HANGMAN");
@@ -35,8 +36,10 @@ public class MainMenu extends JFrame {
 
         titlePanel.add(titleLabel); // adding components to the frame
         menuPanel.add(titlePanel);
+
         menuPanel.add(getMenuButtons());
         add(menuPanel);
+
 
         setResizable(false); // adjusting frames
         setSize(width, height); // sets size of frame
@@ -47,7 +50,8 @@ public class MainMenu extends JFrame {
 
     private JPanel getMenuButtons() {
         JPanel buttonPanel = new JPanel();
-        buttonPanel.setBorder(BorderFactory.createEmptyBorder(100, 50, 50, 50));
+
+        buttonPanel.setBorder(BorderFactory.createEmptyBorder(100, 25, 50, 25));
         buttonPanel.setLayout(new GridBagLayout());
     
         Font buttonFont = new Font("SANS_SERIF", Font.BOLD, 48);
@@ -57,17 +61,18 @@ public class MainMenu extends JFrame {
         playButton.setBackground(new Color(139, 247, 123));
         playButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent info) {
-                new GameScreen(width, height);
+                new GameScreen(width, height, leaderboard);
                 dispose();
             }
         });
 
         JButton leaderboardButton = new JButton("RANKING");
         leaderboardButton.setFont(buttonFont);
-        leaderboardButton.setBackground(new Color(139, 247, 123));
+        leaderboardButton.setBackground(new Color(255, 254, 89));
         leaderboardButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent info) {
-                new LeaderboardMenu(width, height).setVisible(true);
+                new LeaderboardMenu(width, height, leaderboard);
+                dispose();
             }
         });
     
@@ -82,7 +87,7 @@ public class MainMenu extends JFrame {
             }
         });
     
-        JButton infoButton = new JButton("INSTRUCTIONS");
+        JButton infoButton = new JButton("RULES");
         infoButton.setFont(buttonFont);
         infoButton.setBackground(new Color(155, 222, 255));
         infoButton.addActionListener(new ActionListener() {
@@ -96,7 +101,7 @@ public class MainMenu extends JFrame {
         buttonPanel.add(infoButton, createGBC(0, 1, 1));
         buttonPanel.add(leaderboardButton, createGBC(1, 1, 1));
         buttonPanel.add(quitButton, createGBC(0, 2, 2));
-    
+
         return buttonPanel;
     }    
 

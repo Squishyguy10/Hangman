@@ -14,11 +14,15 @@ public class Leaderboard {
 
     public void updateScore(String playerName, int score) {
         leaderboard.add(new PlayerEntry(playerName, score));
+
     }
 
     public String[] getFormattedLeaderboard() {
         Collections.sort(leaderboard, Comparator.comparingInt(PlayerEntry::getScore));
         List<String> formattedLeaderboard = new ArrayList<>();
+
+        if (leaderboard.size() > 6) // removes lowest score after sorting
+            leaderboard.remove(leaderboard.size() - 1);
 
         for (PlayerEntry entry : leaderboard) {
             formattedLeaderboard.add(entry.getPlayerName() + "\t\t" + entry.getScore());
